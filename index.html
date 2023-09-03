@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ODM</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M494.8 47c12.7-3.7 20-17.1 16.3-29.8S494-2.8 481.2 1L51.7 126.9c-9.4 2.7-17.9 7.3-25.1 13.2C10.5 151.7 0 170.6 0 192v4V304 448c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H218.5L494.8 47zM368 240a80 80 0 1 1 0 160 80 80 0 1 1 0-160zM80 256c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16s-7.2 16-16 16H96c-8.8 0-16-7.2-16-16zM64 320c0-8.8 7.2-16 16-16H208c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16zm16 64c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16s-7.2 16-16 16H96c-8.8 0-16-7.2-16-16z'/%3E%3C/svg%3E" type="image/svg+xml">
+
+</head>
+<body class="bg-[#2f3e46] text-white"> <!-- Changed text color -->
+
+<!-- Hero Section -->
+<section class="relative hero py-14">
+  <div class="container text-center mx-auto">
+    <script class="item-center " src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <lottie-player src="./assets/wave2.json" background="Transparent" speed="0.75" style="height: 150px" direction="1" mode="normal" loop autoplay>
+    </lottie-player>
+    <a href="./index.html">
+      <h1 class="text-5xl font-semibold text-white -mt-4" style="font-family: 'Montserrat Alternates', sans-serif;">Online Digital Music</h1>
+      <p class="text-lg mt-2 text-gray-400" style="font-family: 'Quicksand', sans-serif;">Weaving Tunes into Timeless Stories</p>
+    </a>
+  </div>
+</section>
+<!-- Stations Section - Centered Buttons -->
+<section class="flex container justify-center items-center h-auto py-5 mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center text-center">
+    <!-- Channels -->
+    <div class="col-span-1 relative group">
+      <a href="/channel.html" class="relative block">
+        <i class="fa-duotone fa-music text-6xl text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-20 transition-opacity duration-300 group-hover:opacity-100"></i>
+        <img class="rounded-3xl h-72 w-72 backdrop-filter object-fill aspect-square" src="./assets/channel.jpg" alt="channels">
+        <div class="rounded-b-3xl h-12 bg-gray-100 bg-opacity-20 absolute p-2 bottom-0 left-0 right-0 text-xl font-bold">
+          <p>
+          Channel
+        </p>
+        </div>
+      </a>
+    </div>
+    <!-- Playlists -->
+    <div class="col-span-1 relative group">
+      <a href="/playlist.html" class="relative block">
+        <i class="fa-duotone fa-list-music text-6xl text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-20 transition-opacity duration-300 group-hover:opacity-100"></i>
+        <img class="rounded-3xl h-72 w-72 backdrop-filter object-fill" src="./assets/playlist.jpg" alt="playlists">
+        <div class="rounded-b-3xl h-12 bg-gray-100 bg-opacity-20 absolute p-2 bottom-0 left-0 right-0 text-xl font-bold">
+          <p>
+            Playlists
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="bg-[#354f52] py-4">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+    <div class="flex items-center space-x-2 mb-2 md:mb-0">
+      <i class="fa-duotone fa-waveform-lines text-white"></i>
+      <h1 class="text-lg text-white" style="font-family: 'Montserrat Alternates', sans-serif;">Online Digital Music</h1>
+    </div>
+    <p class="text-white mb-2 md:mb-0 text-center">© 2021 Online Digital Music. All rights reserved.</p>
+    <div class="flex space-x-2">
+      <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-github"></i></a>
+      <!-- Add other social icons here -->
+      <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-twitter"></i></a>
+      <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+<script type="module" src="./js/script.js"></script>
+</body>
+</html>

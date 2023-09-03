@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scroll-m-1 {
+    max-height: 150px; /* Adjust this value based on your design */
+    overflow: hidden;
+  }
+  .scroll-m-1 p {
+    margin-right: -20px; /* Adjust this value based on your design */
+    padding-right: 20px;
+  }
+  #stations-container .rounded-xl img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #stations-container .rounded-xl img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+  }
+  /* Additional custom styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    color: #2b2d42;
+  }
+
+  .nav-item {
+    padding: 10px;
+  }
+
+  .nav-item:hover {
+    color: #1DB954;
+  }
+
+  .hero {
+    background-image: url('path/to/hero-image.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .station-card {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .station-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .station-image {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+
+  .station-card:hover .station-image {
+    transform: scale(1.05);
+  }
+
+  .footer {
+    background-color: #1E1E1E;
+    color: #B3B3B3;
+  }
+
+  .image-zoom img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .image-zoom:hover img {
+    transform: scale(1.1);
+  }
+
+.player-container {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Add this to your existing CSS or in a <style> tag in the <head> section */
+.scrollbar-hidden {
+  scrollbar-width: none; /* Hide default scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide default scrollbar in IE and Edge */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 0; /* Hide default scrollbar in Webkit browsers (Chrome, Safari, etc.) */
+}
+.currently-playing {
+  background-color: #ffa500; /* Add your desired highlight color */
+  color: white; /* Add your desired text color */
+  border-radius: 10px;
+}

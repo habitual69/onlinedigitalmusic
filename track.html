@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Online Digital Music</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="./css/styles.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M494.8 47c12.7-3.7 20-17.1 16.3-29.8S494-2.8 481.2 1L51.7 126.9c-9.4 2.7-17.9 7.3-25.1 13.2C10.5 151.7 0 170.6 0 192v4V304 448c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H218.5L494.8 47zM368 240a80 80 0 1 1 0 160 80 80 0 1 1 0-160zM80 256c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16s-7.2 16-16 16H96c-8.8 0-16-7.2-16-16zM64 320c0-8.8 7.2-16 16-16H208c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16zm16 64c0-8.8 7.2-16 16-16h96c8.8 0 16 7.2 16 16s-7.2 16-16 16H96c-8.8 0-16-7.2-16-16z'/%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="bg-[#2f3e46] text-white">
+    <!-- Hero Section -->
+<section class="relative hero py-14">
+    <div class="container text-center mx-auto">
+      <script class="item-center " src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+      <lottie-player src="./assets/wave2.json" background="Transparent" speed="0.75" style="height: 150px" direction="1" mode="normal" loop autoplay>
+      </lottie-player>
+      <a href="./index.html">
+        <h1 class="text-5xl font-semibold text-white -mt-4" style="font-family: 'Montserrat Alternates', sans-serif;">Online Digital Music</h1>
+        <p class="text-lg mt-2 text-gray-400" style="font-family: 'Quicksand', sans-serif;">Weaving Tunes into Timeless Stories</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Content Section -->
+<section class="container mx-auto px-6 py-12 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+  <!-- Player Container -->
+  <div class="player-container bg-gray-900 rounded-lg shadow-lg p-6 flex-1">
+      <div class="relative">
+          <img id="track-image" src="" alt="Track Image" class="mx-auto max-w-full rounded-lg shadow-lg">
+          <div class="absolute inset-0 flex items-center justify-center">
+              <div id="progress-bar" class="progress-bar bg-gray-800 absolute bottom-0 left-0 h-full mt-2 opacity-60"></div>
+          </div>
+      </div>
+      <h2 id="track-title" class="text-xl font-semibold mt-4 text-white"></h2>
+      <audio id="audio-player" class="w-full mb-4"></audio>
+      <div class="relative h-2 bg-gray-800 w-full rounded-full mt-4">
+          <input id="seek-bar" type="range" min="0" max="100" value="0" class="absolute w-full h-2 bg-transparent cursor-pointer rounded-full">
+      </div>
+      <div class="flex justify-center mt-8 space-x-6">
+        <div class="bg-[#354f52] rounded-full p-2 space-x-6">
+          <button id="prev-button" class="text-white hover:text-gray-400 text-3xl">
+            <i class="fas fa-backward"></i>
+        </button>
+        <button id="play-button" class="text-white hover:text-gray-400 text-3xl">
+            <i class="fas fa-play"></i>
+        </button>
+        <button id="next-button" class="text-white hover:text-gray-400 text-3xl">
+            <i class="fas fa-forward"></i>
+        </button>
+        </div>
+          
+      </div>
+  </div>
+
+  <!-- Tracklist Container -->
+  <div class="bg-gray-900 rounded-lg shadow-lg p-6 flex-1">
+      <div class="flex justify-between items-center text-gray-400">
+          <span class="text-xl text-white">Tracks in Queue: <span id="track-count"></span>
+      </div>
+      <div id="track-list" class="mt-4 sm:h-40 md:h-48 lg:h-96 overflow-y-scroll scrollbar-hidden scroll-smooth">
+          <!-- Track list items will be inserted here -->
+      </div>
+  </div>
+</section>
+
+
+  
+<!-- Footer -->
+<footer class="bg-[#354f52] py-4">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center space-x-2 mb-2 md:mb-0">
+        <i class="fa-duotone fa-waveform-lines"></i>
+        <h1 class="text-lg" style="font-family: 'Montserrat Alternates', sans-serif;">Online Digital Music</h1>
+      </div>
+      <p class="text-white mb-2 md:mb-0 text-center">© 2021 Online Digital Music. All rights reserved.</p>
+      <div class="flex space-x-2">
+        <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-github"></i></a>
+        <!-- Add other social icons here -->
+        <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" class="text-white hover:text-slate-800"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+    <script src="./js/tracks.js"></script>
+</body>
+</html>
