@@ -1,13 +1,14 @@
 const urlParams = new URLSearchParams(window.location.search);
 const channelId = urlParams.get('channelId');
 const playlistId = urlParams.get('playlistId');
+
 let apiUrl = '';
 const baseUrl = 'https://difm.vpms.xyz/track/';
 
 if (channelId !== null) {
-    apiUrl = `${baseUrl}channel/${channelId}`;
+    apiUrl = `${baseUrl}channel/${encodeURIComponent(channelId)}`;
 } else if (playlistId !== null) {
-    apiUrl = `${baseUrl}playlist/${playlistId}`;
+    apiUrl = `${baseUrl}playlist/${encodeURIComponent(playlistId)}`;
 }
 
 let currentIndex = 0;
@@ -23,6 +24,59 @@ const seekBar = document.getElementById('seek-bar');
 const trackList = document.getElementById('track-list');
 const trackCount = document.getElementById('track-count');
 
+function safeUrl(input) {
+    try {
+        const u = new URL(String(input), window.location.origin);
+        // Allow only http(s) URLs
+        if (u.protocol === 'http:' || u.protocol === 'https:') return u.toString();
+    } catch (_) {
+        // ignore
+    }
+    return '';
+}
+
+function renderTrackItem(track, index, absoluteIndex) {
+    const trackItem = document.createElement('div');
+    trackItem.classList.add('track-item', 'flex', 'items-center', 'mt-2', 'cursor-pointer', 'p-2', 'bg-gray-800', 'rounded');
+
+    if (absoluteIndex === currentIndex) {
+        trackItem.classList.add('currently-playing');
+    }
+
+    const trackLengthMinutes = Math.floor(track.length / 60);
+    const trackLengthSeconds = track.length % 60;
+
+    const img = document.createElement('img');
+    img.className = 'w-8 h-8 rounded mr-2';
+    img.alt = 'Track Image';
+    img.src = safeUrl(track.asset_url);
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'flex-grow';
+
+    const title = document.createElement('span');
+    title.className = 'text-sm';
+    title.textContent = String(track.display_title ?? '');
+
+    titleWrap.appendChild(title);
+
+    const duration = document.createElement('div');
+    duration.className = 'text-sm';
+    duration.textContent = `${trackLengthMinutes}:${trackLengthSeconds.toString().padStart(2, '0')}`;
+
+    trackItem.appendChild(img);
+    trackItem.appendChild(titleWrap);
+    trackItem.appendChild(duration);
+
+    trackItem.addEventListener('click', () => {
+        currentIndex = absoluteIndex;
+        loadTrack(tracks[currentIndex]);
+        updateTrackHighlight(currentIndex);
+    });
+
+    return trackItem;
+}
+
 seekBar.addEventListener('input', () => {
     const seekTime = (audioPlayer.duration * seekBar.value) / 100;
     audioPlayer.currentTime = seekTime;
@@ -32,10 +86,9 @@ audioPlayer.addEventListener('timeupdate', () => {
     const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
     progressBar.style.width = `${progress}%`;
     seekBar.value = progress;
-    if (currentIndex === tracks.length-1) {
+    if (currentIndex === tracks.length - 1) {
         fetchAndUpdateTracklist();
-    }
-    else if (audioPlayer.currentTime === audioPlayer.duration) {
+    } else if (audioPlayer.currentTime === audioPlayer.duration) {
         playNextTrack();
     }
 });
@@ -49,10 +102,12 @@ playButton.addEventListener('click', () => {
 });
 
 audioPlayer.addEventListener('play', () => {
+    // static HTML from us, not user-controlled
     playButton.innerHTML = '<i class="fas fa-pause"></i>';
 });
 
 audioPlayer.addEventListener('pause', () => {
+    // static HTML from us, not user-controlled
     playButton.innerHTML = '<i class="fas fa-play"></i>';
 });
 
@@ -67,9 +122,24 @@ prevButton.addEventListener('click', () => {
 });
 
 function loadTrack(track) {
-    document.getElementById('track-image').src = track.images.default.replace("{?size,height,width,quality,pad}", "?size=440x440&quality=60");
-    document.getElementById('track-title').textContent = track.display_title;
-    audioPlayer.src = track.content.assets[0].url;
+    // title is textContent => safe
+    document.getElementById('track-title').textContent = String(track.display_title ?? '');
+
+    // image/audio URLs should be restricted to http(s)
+    const imgUrl = safeUrl(track.images?.default);
+    if (imgUrl) {
+        document.getElementById('track-image').src = imgUrl.replace("{?size,height,width,quality,pad}", "?size=440x440&quality=60");
+    } else {
+        document.getElementById('track-image').removeAttribute('src');
+    }
+
+    const audioUrl = safeUrl(track.content?.assets?.[0]?.url);
+    if (audioUrl) {
+        audioPlayer.src = audioUrl;
+    } else {
+        audioPlayer.removeAttribute('src');
+    }
+
     playButton.innerHTML = '<i class="fas fa-play"></i>';
     audioPlayer.play();
 }
@@ -89,7 +159,6 @@ function playNextTrack() {
     currentIndex = (currentIndex + 1) % tracks.length;
     loadTrack(tracks[currentIndex]);
     updateTrackHighlight(currentIndex);
-    
 }
 
 function fetchAndUpdateTracklist() {
@@ -100,32 +169,12 @@ function fetchAndUpdateTracklist() {
             const currentTrackCount = tracks.length;
 
             newTracks.forEach((track, index) => {
-                const trackItem = document.createElement('div');
-                trackItem.classList.add('track-item', 'flex', 'items-center', 'mt-2', 'cursor-pointer', 'p-2' ,'bg-gray-800', 'rounded');
-
-                if (currentTrackCount + index === currentIndex) {
-                    trackItem.classList.add('currently-playing');
-                }
-
-                const trackLengthMinutes = Math.floor(track.length / 60);
-                const trackLengthSeconds = track.length % 60;
-
-                trackItem.innerHTML = `
-                    <img src="${track.asset_url}" alt="Track Image" class="w-8 h-8 rounded mr-2">
-                    <div class="flex-grow">
-                        <span class="text-sm">${track.display_title}</span>
-                    </div>
-                    <div class="text-sm">${trackLengthMinutes}:${trackLengthSeconds.toString().padStart(2, '0')}</div>
-                `;
-                trackItem.addEventListener('click', () => {
-                    currentIndex = currentTrackCount + index;
-                    loadTrack(tracks[currentIndex]);
-                    updateTrackHighlight(currentIndex);
-                });
+                const absoluteIndex = currentTrackCount + index;
+                const trackItem = renderTrackItem(track, index, absoluteIndex);
                 trackList.appendChild(trackItem);
             });
 
-            trackCount.textContent = currentTrackCount + newTracks.length;
+            trackCount.textContent = String(currentTrackCount + newTracks.length);
 
             tracks = tracks.concat(newTracks);
         })
@@ -148,32 +197,11 @@ fetch(apiUrl)
         });
 
         tracks.forEach((track, index) => {
-            const trackItem = document.createElement('div');
-            trackItem.classList.add('track-item', 'flex', 'items-center', 'mt-2', 'cursor-pointer', 'p-2' ,'bg-gray-800', 'rounded');
-
-            if (index === currentIndex) {
-                trackItem.classList.add('currently-playing');
-            }
-
-            const trackLengthMinutes = Math.floor(track.length / 60);
-            const trackLengthSeconds = track.length % 60;
-
-            trackItem.innerHTML = `
-                <img src="${track.asset_url}" alt="Track Image" class="w-8 h-8 rounded mr-2">
-                <div class="flex-grow">
-                    <span class="text-sm">${track.display_title}</span>
-                </div>
-                <div class="text-sm">${trackLengthMinutes}:${trackLengthSeconds.toString().padStart(2, '0')}</div>
-            `;
-            trackItem.addEventListener('click', () => {
-                currentIndex = index;
-                loadTrack(track);
-                updateTrackHighlight(index);
-            });
+            const trackItem = renderTrackItem(track, index, index);
             trackList.appendChild(trackItem);
         });
 
-        trackCount.textContent = tracks.length;
+        trackCount.textContent = String(tracks.length);
     })
     .catch(error => {
         console.error('Error fetching data:', error);
